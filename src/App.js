@@ -1,23 +1,38 @@
-function Square({ label }) {
-  return <button className="square">{label}</button>
+import { useState } from 'react'
+
+function Square() {
+  const [squareValue, setSquare] = useState(null)
+  
+  function tickSquare() {
+    setSquare('X')
+  }
+
+  return (
+    <button 
+      className="square" 
+      onClick={tickSquare}
+    >
+      {squareValue}
+    </button>
+  )
 }
 export default function Board() {
   return(
     <>
       <div className="board-row">
-        <Square label="1" />
-        <Square label="2" />
-        <Square label="3" />
+        <Square />
+        <Square />
+        <Square />
       </div>
       <div className="board-row">
-        <Square label="4" />
-        <Square label="5" />
-        <Square label="6" />
+        <Square />
+        <Square />
+        <Square />
       </div>
       <div className="board-row">
-        <Square label="7" />
-        <Square label="8" />
-        <Square label="9" />
+        <Square />
+        <Square />
+        <Square />
       </div>
     </>
   )
