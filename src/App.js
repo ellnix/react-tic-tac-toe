@@ -1,5 +1,24 @@
 import { useState } from 'react'
 
+function calculateWinner(squares) {
+  const wins = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+  ]
+
+  const winning_line = wins
+    .map(sqs => sqs.map(sq => squares[sq]))
+    .find(sqs => sqs.reduce((acc, sq) => acc == sq ? sq : null))
+
+  return winning_line && winning_line[0] || null
+}
+
 function Square({label, onSquareClick}) {
   return (
     <button 
@@ -14,8 +33,17 @@ export default function Board() {
   const [nextPlayer, setNextPlayer] = useState('X')
   const [squares, setSquares] = useState(new Array(9).fill(null))
 
+  let board_status;
+  const winner = calculateWinner(squares)
+
+  if (winner) {
+    board_status = "Winner: " + winner
+  } else {
+    board_status = "Next: " + nextPlayer
+  }
+
   function clickSquare(square) {
-    if (squares[square] !== null) return
+    if (squares[square] !== null || winner) return
 
     const nextSquares = squares.slice()
     nextSquares[square] = nextPlayer
@@ -25,6 +53,7 @@ export default function Board() {
 
   return(
     <>
+      <div className="status">{board_status}</div>
       <div className="board-row">
         <Square label={squares[0]} onSquareClick={() => clickSquare(0)} />
         <Square label={squares[1]} onSquareClick={() => clickSquare(1)} />
